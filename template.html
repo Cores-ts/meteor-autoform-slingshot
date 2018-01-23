@@ -1,57 +1,83 @@
 <template name="afSlingshot">
-<div class="form-group file-upload afSlingshot" {{atts}}>
+    <div class="form-group file-upload afSlingshot" {{atts}}>
 
-  {{#if showList}}
-  <div class="well file-list">
-    <div class="row">
-      {{#each files}}
-      <div class="col-sm-6 col-md-4 col-xs-12 col-lg-3">
-        <div class="well file">
-          <h4>{{filename}}</h4>
-          {{#if isImage}}
-            <img src="{{downloadUrl}}" class="image-preview"/>
-          {{else}}
-            <i class="fa fa-file-o {{mimeClass}} file-icon"></i>
-          {{/if}}
+        {{err}}
+        {{#if showList}}
+            <div class="ui padded bottom attached segment file-list">
+                <div class="row">
+                    {{#each files}}
+                        <div class="col-sm-6 col-md-4 col-xs-12 col-lg-3">
+                            <div class="file">
 
+                                {{#if isImage}}
+                                    <img src="{{downloadUrl}}" class="image-preview"/>
+                                {{else}}
+                                    <i class="fa fa-file-o {{mimeClass}} file-icon"></i>
+                                {{/if}}
 
-          <div class="progress">
-            <div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" aria-valuenow="{{progress}}" aria-valuemin="0" aria-valuemax="100" style="width: {{progress}}%">
-              <span class="sr-only">{{progress}}% Complete</span>
+                                <h4><a href="{{filename}}" target="_blank">{{docName filename}}</a></h4>
+
+                                <div class="ui active tiny blue progress" data-percent="{{progress}}">
+                                    <div class="bar" style="width: {{progress}}%">
+                                        <div class="progress"></div>
+                                    </div>
+                                    <div class="label">{{progress}}% Complete</div>
+                                </div>
+
+                                <div class="btn-group">
+                                    <div name="remove" class="ui red button"><i class="fa fa-trash"></i> Remove file</div>
+                                    <div class="ui blue right labeled icon button download-btn2">
+                                        <i class="cloud download icon"></i>
+                                    </div>
+
+                                    {{#if err}}
+                                        there are errors!
+                                    {{/if}}
+
+                                    {{#if config.showDownload}}
+                                        <a class="ui button" download="{{filename}}" href="{{downloadUrl}}"><i class="fa fa-download" target="_blank"></i></a>
+                                    {{/if}}
+                                </div>
+                            </div>
+                        </div>
+                    {{/each}}
+                </div>
             </div>
-          </div>
-          <div class="btn-group">
-            <div name="remove" class="btn btn-danger"><i class="fa fa-trash"></i> Remove</div> 
-            {{#if config.showDownload}}
-              <a class="btn btn-primary" download="{{filename}}" href="{{downloadUrl}}"><i class="fa fa-download" target="_blank"></i></a>
+        {{/if}}
+        {{#unless files}}
+            <div class="ui action input" name="afSlingshot-uploader">
+                {{#if downloadUrl}}
+                    <input type="text" value="{{downloadUrl}}">
+                {{else}}
+                    <input type="text" value="{{summary}}">
+                {{/if}}
+                <div class="ui blue right labeled icon button">
+                    <i class="cloud upload icon"></i>
+                    Upload
+                </div>
+                {{#if config.showDownloadAll}}
+
+                    <div class="ui blue right labeled icon button download-btn">
+                        <i class="cloud download icon"></i>
+                    </div>
+
+
+                {{/if}}
+
+            </div>
+        {{/unless}}
+
+        {{#if config.multipleUpload}}
+            {{#if showTotalProgress}}
+                <div class="ui active tiny blue progress" data-percent="{{progressAll}}">
+                    <div class="bar" style="width: {{progressAll}}%">
+                        <div class="progress"></div>
+                    </div>
+                    <div class="label">{{progressAll}}% Complete</div>
+                </div>
             {{/if}}
-          </div>
-        </div>
-      </div>
-      {{/each}}
+        {{/if}}
+        <!-- Actual file input -->
+        <input type="file" accept="{{allowedFileTypes}}" style="display: none;" multiple="{{config.multipleUpload}}"/>
     </div>
-  </div>
-  {{/if}}
-
-  <div class="input-group" name="afSlingshot-uploader">
-    <input type="text" class="form-control" readonly value="{{summary}}"/>
-    <span class="input-group-btn">
-      <button class="btn btn-default upload-btn" type="button"><i class="fa fa-upload"></i> Upload</button>
-      {{#if config.showDownloadAll}}
-        <div class="btn btn-primary download-btn"><i class="fa fa-download"></i></div>
-      {{/if}}
-    </span>
-  </div>
-
-  {{#if showTotalProgress}}
-  <div class="progress">
-    <div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" aria-valuenow="{{progressAll}}" aria-valuemin="0" aria-valuemax="100" style="width: {{progressAll}}%">
-      <span class="sr-only">{{progressAll}}% Complete</span>
-    </div>
-  </div>
-  {{/if}}
-
-  <!-- Actual file input -->
-  <input type="file" accept="{{allowedFileTypes}}" style="display: none;" multiple="{{config.multipleUpload}}"/>
-</div>
 </template>
