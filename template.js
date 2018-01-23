@@ -168,9 +168,8 @@ Template.afSlingshot.helpers({
             return url.substring(url.lastIndexOf('/') + 1);
         }
     },
-    err: function () {
+    error: function () {
         var t = Template.instance();
-        console.log(t.afSlingshot.error(this.filename));
         return t.afSlingshot.error(this.filename);
     }
 });
@@ -188,10 +187,6 @@ Template.afSlingshot.events({
     'click .download-btn': function(e, t) {
         e.stopPropagation();
         t.afSlingshot.downloadAll();
-    },
-    'click .download-btn2': function(e, t) {
-        e.stopPropagation();
-        t.afSlingshot.error(this.filename);
     }
 });
 

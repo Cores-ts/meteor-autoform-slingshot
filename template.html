@@ -1,45 +1,51 @@
 <template name="afSlingshot">
     <div class="form-group file-upload afSlingshot" {{atts}}>
 
-        {{err}}
+        {{isError}}
         {{#if showList}}
             <div class="ui padded bottom attached segment file-list">
                 <div class="row">
                     {{#each files}}
-                        <div class="col-sm-6 col-md-4 col-xs-12 col-lg-3">
-                            <div class="file">
 
-                                {{#if isImage}}
-                                    <img src="{{downloadUrl}}" class="image-preview"/>
-                                {{else}}
-                                    <i class="fa fa-file-o {{mimeClass}} file-icon"></i>
-                                {{/if}}
+                        {{#if error}}
+                            <div class="ui negative message">
+                                {{error}}
+                            </div>
+                            <div name="remove" class="ui yellow button"><i class="fa fa-refresh"></i> Upload another file
+                            </div>
+                        {{else}}
 
-                                <h4><a href="{{filename}}" target="_blank">{{docName filename}}</a></h4>
 
-                                <div class="ui active tiny blue progress" data-percent="{{progress}}">
-                                    <div class="bar" style="width: {{progress}}%">
-                                        <div class="progress"></div>
-                                    </div>
-                                    <div class="label">{{progress}}% Complete</div>
-                                </div>
+                            <div class="col-sm-6 col-md-4 col-xs-12 col-lg-3">
+                                <div class="file">
 
-                                <div class="btn-group">
-                                    <div name="remove" class="ui red button"><i class="fa fa-trash"></i> Remove file</div>
-                                    <div class="ui blue right labeled icon button download-btn2">
-                                        <i class="cloud download icon"></i>
-                                    </div>
-
-                                    {{#if err}}
-                                        there are errors!
+                                    {{#if isImage}}
+                                        <img src="{{downloadUrl}}" class="image-preview"/>
+                                    {{else}}
+                                        <i class="fa fa-file-o {{mimeClass}} file-icon"></i>
                                     {{/if}}
 
-                                    {{#if config.showDownload}}
-                                        <a class="ui button" download="{{filename}}" href="{{downloadUrl}}"><i class="fa fa-download" target="_blank"></i></a>
-                                    {{/if}}
+                                    <h4><a href="{{filename}}" target="_blank">{{docName filename}}</a></h4>
+
+                                    <div class="ui active tiny blue progress" data-percent="{{progress}}">
+                                        <div class="bar" style="width: {{progress}}%">
+                                            <div class="progress"></div>
+                                        </div>
+                                        <div class="label">{{progress}}% Complete</div>
+                                    </div>
+
+                                    <div class="btn-group">
+                                        <div name="remove" class="ui red button"><i class="fa fa-trash"></i> Remove file
+                                        </div>
+
+                                        {{#if config.showDownload}}
+                                            <a class="ui button" download="{{filename}}" href="{{downloadUrl}}"><i
+                                                    class="fa fa-download" target="_blank"></i></a>
+                                        {{/if}}
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        {{/if}}
                     {{/each}}
                 </div>
             </div>

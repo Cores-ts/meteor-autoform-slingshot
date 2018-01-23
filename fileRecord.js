@@ -26,7 +26,8 @@ afSlingshot.FileRecord = function (file, config, newUpload) {
     if (newUpload) {
         _.each(self._config.directives, function (directive) {
             self._upload(file, directive, function (err) {
-                self._error.set( err.error);
+                console.log (err);
+                self._error.set( err.message);
             });
         });
     } else {
@@ -79,7 +80,7 @@ afSlingshot.FileRecord.prototype._upload = function (file, directive, callback) 
     var uploaderCallback = function (err, downloadUrl) {
         if (err) {
             console.error('uploaderCallback ' + err);
-            // throw new Meteor.Error('uploaderCallback ' + err.error);
+            // throw new Meteor.Error('uploaderCallback ' + isError.error);
             callback(err);
         }
 
